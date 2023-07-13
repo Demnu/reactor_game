@@ -1,24 +1,40 @@
 import { create } from "zustand";
 
-// Define a state type
-type TankState = {
+type Tank = {
   max: number;
   fill: number;
   bar: number;
-};
-type TanksState = {
-  tank1: TankState;
-  tank2: TankState;
-  tank3: TankState;
-  tank4: TankState;
+  setMax: (num: number) => void;
+  setFill: (num: number) => void;
+  setBar: (num: number) => void;
 };
 
-// Use the defined state type in your Zustand store
-const useTanksStore = create<TanksState>((set) => ({
-  tank1: { max: 2, fill: 2, bar: 0 },
-  tank2: { max: 4, fill: 2, bar: 0 },
-  tank3: { max: 6, fill: 2, bar: 0 },
-  tank4: { max: 8, fill: 2, bar: 0 },
-}));
+type TanksState = {
+  tank1: Tank;
+  tank2: Tank;
+  tank3: Tank;
+  tank4: Tank;
+};
+
+const useTanksStore = create<TanksState>((set) => {
+  const createTank = (id: keyof TanksState): Tank => ({
+    max: 2,
+    fill: 2,
+    bar: 0,
+    setMax: (num: number) =>
+      set((state) => ({ ...state, [id]: { ...state[id], max: num } })),
+    setFill: (num: number) =>
+      set((state) => ({ ...state, [id]: { ...state[id], fill: num } })),
+    setBar: (num: number) =>
+      set((state) => ({ ...state, [id]: { ...state[id], bar: num } })),
+  });
+
+  return {
+    tank1: createTank("tank1"),
+    tank2: createTank("tank2"),
+    tank3: createTank("tank3"),
+    tank4: createTank("tank4"),
+  };
+});
 
 export default useTanksStore;

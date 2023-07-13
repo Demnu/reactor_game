@@ -1,17 +1,15 @@
 import { create } from "zustand";
 
 // Define a state type
-type BearState = {
-  bears: number;
-  increasePopulation: () => void;
-  removeAllBears: () => void;
+type GlobalState = {
+  time: number;
+  incrementTime: () => void;
 };
 
 // Use the defined state type in your Zustand store
-const useGlobalStore = create<BearState>((set) => ({
-  bears: 0,
-  increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
-  removeAllBears: () => set({ bears: 0 }),
+const useGlobalStore = create<GlobalState>((set) => ({
+  time: 0,
+  incrementTime: () => set((state) => ({ time: state.time + 1 })),
 }));
 
 export default useGlobalStore;
